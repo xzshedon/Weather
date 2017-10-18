@@ -1,8 +1,17 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
+
+    //需要添加的第一部分：
+    //下面这两句在创建项目时不会自动生成，必需加上，是为了引用Java8的。
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId "com.study.weather"
         minSdkVersion 23
@@ -10,6 +19,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // 若影响开发可以关闭
+//        useJack(true)
     }
     buildTypes {
         release {
@@ -24,7 +35,45 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'io.reactivex:rxjava:1.1.9'
+    compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
+    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.facebook.fresco:fresco:0.12.0'
+    compile 'junit:junit:4.12'
+    compile 'com.jakewharton:butterknife:8.2.1'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    compile 'com.squareup.okhttp3:okhttp-ws:3.3.1'
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }
+
+//需要添加的第二部分：
+
+//以下全部都是要添加到项目的build.gradle中的
+//注意，经测试，只有3.2.4能够生效，如果有更新还请能够留言通知。
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.4'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'me.tatarka.retrolambda'
